@@ -11,7 +11,7 @@ def genKey(seed):
 
 def main():
     if len(sys.argv) < 2:
-        key = genKey(92939)
+        key = genKey(1337)
         print(key)
     else:
         key = genKey(sys.argv[1])
