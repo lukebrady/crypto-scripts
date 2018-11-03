@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import sys, base58
+import sys, base58, hashlib
 
 # Decode the supplied key to encrypt the given message.
 def decodeKey(key):
@@ -10,8 +10,11 @@ def decodeKey(key):
 
 # Encrypt the supplied message with the supplied key.
 def encryptMessage(message, key):
-    msg = ([(ord(char) * key) for char in message])
-    print(msg)
+    msg = [(ord(char) * key) for char in message]
+    msgHash = '8348483' #hashlib.sha256(bytes(msg)).hexdigest()
+    # Return a tuple with the msg and msgHash.
+    return (msg, msgHash)
+
 # Get the key from stdin, decode the key, and encrypt
 # the supplied message. Exit with code=1 if message
 # is not supplied to the program.
@@ -24,7 +27,9 @@ def main():
     else:
         key = sys.stdin.readline().strip()
         intKey = decodeKey(key)
-        encryptMessage(sys.argv[1], intKey)
+        msg = encryptMessage(sys.argv[1], intKey)
+        print('MSG: {}'.format(msg[0]))
+        print('Hash: {}'.format(msg[1]))
         exit(code=0)
 
 if __name__ == '__main__':
